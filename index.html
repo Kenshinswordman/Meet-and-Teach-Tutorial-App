@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial Agreement Generator</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #fef9f0;
+      color: #1a1a1a;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+    }
+    header p {
+      color: #666;
+      font-size: 0.95rem;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 24px;
+    }
+    @media (max-width: 800px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .card h2 {
+      font-size: 1.1rem;
+      margin-bottom: 18px;
+      color: #333;
+    }
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 4px;
+      margin-top: 14px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      background: #fafafa;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #f5c518;
+      background: white;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .checkbox-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 400;
+      margin: 0;
+      font-size: 0.9rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-primary {
+      background: #f5c518;
+      color: #1a1a1a;
+      width: 100%;
+      margin-top: 20px;
+    }
+    .btn-primary:hover { background: #e6b800; }
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+      margin-top: 10px;
+      width: 100%;
+    }
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .preview-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    .rate-badge {
+      background: #1a1a1a;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .preview-section {
+      background: #fafafa;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+    .preview-section h3 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #888;
+      margin-bottom: 6px;
+    }
+    .highlight {
+      display: inline-block;
+      background: #fff3c4;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .services-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .service-tag {
+      background: #fff8e1;
+      border: 1px solid #f5c518;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .actions .btn { flex: 1; min-width: 140px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Tutorial Agreement Generator</h1>
+      <p>Fill the form → Live preview updates instantly → Copy or share</p>
+    </header>
+
+    <div class="layout">
+      <div class="card">
+        <h2>Details</h2>
+
+        <label>Tutor Name</label>
+        <input type="text" id="tutorName" placeholder="e.g. Mia Santos" oninput="updatePreview()" />
+
+        <label>Parent / Guardian Name</label>
+        <input type="text" id="parentName" placeholder="e.g. Mr. Reyes" oninput="updatePreview()" />
+
+        <label>Student Name + Grade</label>
+        <input type="text" id="studentName" placeholder="e.g. Alex Reyes - Grade 8" oninput="updatePreview()" />
+
+        <label>Subjects</label>
+        <input type="text" id="subjects" placeholder="e.g. Math & Science" oninput="updatePreview()" />
+
+        <label>Schedule</label>
+        <input type="text" id="schedule" placeholder="e.g. Sat-Sun 2:00-3:30 PM" oninput="updatePreview()" />
+
+        <div class="row">
+          <div>
+            <label>Rate per hour (₱)</label>
+            <input type="number" id="rate" value="350" oninput="updatePreview()" />
+          </div>
+          <div>
+            <label>Type</label>
+            <select id="type" onchange="updatePreview()">
+              <option value="Part-time • Video Only">Part-time • Video Only</option>
+              <option value="Full-time">Full-time</option>
+              <option value="Part-time • In-person">Part-time • In-person</option>
+            </select>
+          </div>
+        </div>
+
+        <label>Payment Method</label>
+        <select id="payment" onchange="updatePreview()">
+          <option>GCash</option>
+          <option>Maya</option>
+          <option>Bank Transfer</option>
+          <option>Cash</option>
+        </select>
+
+        <label>Included Services</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" id="svc1" checked onchange="updatePreview()" /> Quiz after lecture</label>
+          <label><input type="checkbox" id="svc2" onchange="updatePreview()" /> Homework help</label>
+          <label><input type="checkbox" id="svc3" onchange="updatePreview()" /> Reviewer / notes</label>
+          <label><input type="checkbox" id="svc4" onchange="updatePreview()" /> Parent can join call</label>
+        </div>
+
+        <button class="btn btn-primary" onclick="fillExample()">Fill with Random Example</button>
+        <button class="btn btn-secondary" onclick="clearForm()">Clear Form</button>
+      </div>
+
+      <div class="card" id="preview">
+        <div class="preview-header">
+          <div>
+            <div class="preview-title">TUTORIAL AGREEMENT</div>
+            <div style="font-size:0.85rem;color:#666;margin-top:2px;">VIDEO TUTORIAL CONNECT</div>
+          </div>
+          <div class="rate-badge" id="rateBadge">₱350/hr</div>
+        </div>
+
+        <div class="preview-section">
+          This agreement is made between 
+          <span class="highlight" id="pTutor">Tutor ________</span> and 
+          <span class="highlight" id="pParent">Parent ________</span> for the student 
+          <span class="highlight" id="pStudent">________</span>.
+        </div>
+
+        <div class="preview-section">
+          <h3>1 • Subjects</h3>
+          <div id="pSubjects">—</div>
+        </div>
+
+        <div class="preview-section">
+          <h3>2 • Schedule</h3>
+          <div id="pSchedule">—</div>
+        </div>
+
+        <div class="preview-section">
+          <h3>3 • Type & Mode</h3>
+          <div id="pType">—</div>
+        </div>
+
+        <div class="preview-section">
+          <h3>4 • Rate</h3>
+          <div id="pRate">₱350 / hour</div>
+        </div>
+
+        <div class="preview-section">
+          <h3>5 • Payment</h3>
+          <div id="pPayment">GCash</div>
+        </div>
+
+        <div class="preview-section">
+          <h3>6 • Included Services</h3>
+          <div class="services-list" id="pServices"></div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-primary" onclick="copyText()">Copy as Text</button>
+          <button class="btn btn-secondary" onclick="window.print()">Print / Save PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function updatePreview() {
+      const tutor = document.getElementById('tutorName').value || '________';
+      const parent = document.getElementById('parentName').value || '________';
+      const student = document.getElementById('studentName').value || '________';
+      const subjects = document.getElementById('subjects').value || '—';
+      const schedule = document.getElementById('schedule').value || '—';
+      const rate = document.getElementById('rate').value || '0';
+      const type = document.getElementById('type').value;
+      const payment = document.getElementById('payment').value;
+
+      document.getElementById('pTutor').textContent = 'Tutor ' + tutor;
+      document.getElementById('pParent').textContent = 'Parent ' + parent;
+      document.getElementById('pStudent').textContent = student;
+      document.getElementById('pSubjects').textContent = subjects;
+      document.getElementById('pSchedule').textContent = schedule;
+      document.getElementById('pType').textContent = type;
+      document.getElementById('pRate').textContent = '₱' + rate + ' / hour';
+      document.getElementById('rateBadge').textContent = '₱' + rate + '/hr';
+      document.getElementById('pPayment').textContent = payment;
+
+      const services = [];
+      if (document.getElementById('svc1').checked) services.push('Quiz after lecture');
+      if (document.getElementById('svc2').checked) services.push('Homework help');
+      if (document.getElementById('svc3').checked) services.push('Reviewer / notes');
+      if (document.getElementById('svc4').checked) services.push('Parent can join call');
+
+      const svcContainer = document.getElementById('pServices');
+      svcContainer.innerHTML = services.length 
+        ? services.map(s => `<span class="service-tag">${s}</span>`).join('')
+        : '<span style="color:#999">None selected</span>';
+    }
+
+    function fillExample() {
+      document.getElementById('tutorName').value = 'Mia Santos';
+      document.getElementById('parentName').value = 'Mr. Reyes';
+      document.getElementById('studentName').value = 'Alex Reyes - Grade 8';
+      document.getElementById('subjects').value = 'Math & Science';
+      document.getElementById('schedule').value = 'Sat-Sun 2:00-3:30 PM via Google Meet';
+      document.getElementById('rate').value = 350;
+      document.getElementById('type').value = 'Part-time • Video Only';
+      document.getElementById('payment').value = 'GCash';
+      document.getElementById('svc1').checked = true;
+      document.getElementById('svc2').checked = false;
+      document.getElementById('svc3').checked = false;
+      document.getElementById('svc4').checked = false;
+      updatePreview();
+    }
+
+    function clearForm() {
+      document.querySelectorAll('input[type="text"], input[type="number"]').forEach(el => el.value = '');
+      document.getElementById('rate').value = 350;
+      document.getElementById('type').selectedIndex = 0;
+      document.getElementById('payment').selectedIndex = 0;
+      document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+      document.getElementById('svc1').checked = true;
+      updatePreview();
+    }
+
+    function copyText() {
+      const text = `
+TUTORIAL AGREEMENT
+Video Tutorial Connect
+
+This agreement is made between Tutor ${document.getElementById('tutorName').value || '________'} and Parent ${document.getElementById('parentName').value || '________'} for the student ${document.getElementById('studentName').value || '________'}.
+
+1. Subjects: ${document.getElementById('subjects').value || '—'}
+2. Schedule: ${document.getElementById('schedule').value || '—'}
+3. Type & Mode: ${document.getElementById('type').value}
+4. Rate: ₱${document.getElementById('rate').value || '0'} / hour
+5. Payment: ${document.getElementById('payment').value}
+
+Included Services:
+${[
+  document.getElementById('svc1').checked ? '• Quiz after lecture' : '',
+  document.getElementById('svc2').checked ? '• Homework help' : '',
+  document.getElementById('svc3').checked ? '• Reviewer / notes' : '',
+  document.getElementById('svc4').checked ? '• Parent can join call' : ''
+].filter(Boolean).join('\n') || '• None'}
+      `.trim();
+
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Agreement copied! You can now paste it on WhatsApp.');
+      });
+    }
+
+    updatePreview();
+  </script>
+</body>
+</html>
